@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+    nginx:
+        build: docker/nginx
+        restart: always
+        environment:
+            - TZ=$TZ
+            - LANG=$LANG
+        ports:
+            - "${PORT}:80"
+        volumes:
+            - "./app:${APP_DIR}"
+            - "./logs/nginx:/var/log/nginx"
+    node:
+        build: docker/node
+        restart: always
+        environment:
+            - TZ=$TZ
+            - LANG=$LANG
+            - APP_DIR=$APP_DIR
+        volumes:
+            - "./app:${APP_DIR}"
+        expose:
+            - "35729"
+            - "49152"

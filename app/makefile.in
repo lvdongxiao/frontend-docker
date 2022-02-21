@@ -1,0 +1,19 @@
+.PHONY: all clean init
+.IGNORE: all
+
+dir=$(shell date "+%Y%m%d%H%M%S")
+dist=dist
+dest_dir=$(APP_DIR)/$(dist)/$(dir)
+
+all:
+	@npm install
+	@npm run %build%
+	@$(MAKE) init
+
+clean:
+	@$(MAKE) init
+
+init:
+	@mkdir -p $(dest_dir)
+	@cp -a dist/* $(dest_dir)
+	@(cd $(APP_DIR) && rm -rf public && ln -sf $(dist)/$(dir) public)
